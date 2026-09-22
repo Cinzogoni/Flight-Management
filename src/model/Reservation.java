@@ -1,4 +1,6 @@
-package flightmanagementsystem;
+package model;
+
+import model.Flight;
 
 public class Reservation {
     private String reservationId;

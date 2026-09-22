@@ -1,5 +1,6 @@
-package flightmanagementsystem;
+package ultils;
 
+import controller.FlightManager;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 

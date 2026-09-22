@@ -1,7 +1,7 @@
 
-package flightmanagementsystem;
+package view;
 
-public class FMS_Main {
+public class MenuView {
     public static void main(String[] args) {
     }
     
