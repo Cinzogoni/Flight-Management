@@ -9,7 +9,7 @@ public class FlightIOHandler {
     private Scanner scan;
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    
+
     public FlightIOHandler() {
     }
 
@@ -17,8 +17,8 @@ public class FlightIOHandler {
         this.flightManager = flightManager;
         this.scan = scan;
     }
-    
+
     public void handleAddFlight(){
-        
+
     }
 }
