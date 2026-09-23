@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 public class Flight {
     private String flightNumber;
-    private String passengerName;
     private String departureCity;
     private String destinationCity;
     private LocalDateTime departureTime;
@@ -17,9 +16,8 @@ public class Flight {
     public Flight() {
     }
 
-    public Flight(String flightNumber, String passengerName, String departureCity, String destinationCity, LocalDateTime departureTime, LocalDateTime arrivalTime, long durationTime, int totalSeats, int availableSeats) {
+    public Flight(String flightNumber, String departureCity, String destinationCity, LocalDateTime departureTime, LocalDateTime arrivalTime, long durationTime, int totalSeats, int availableSeats) {
         setFlightNumber(flightNumber);
-        this.passengerName = passengerName;
         this.departureCity = departureCity;
         this.destinationCity = destinationCity;
         setTotalSeats(totalSeats);
@@ -46,14 +44,6 @@ public class Flight {
 
     public LocalDateTime getArrivalTime() {
         return arrivalTime;
-    }
-
-    public void setPassengerName(String passengerName) {
-        this.passengerName = passengerName;
-    }
-
-    public String getPassengerName() {
-        return passengerName;
     }
 
     public long getDurationTime() {
@@ -151,10 +141,8 @@ public class Flight {
         long hours = durationTime / 60;
         long mins = durationTime % 60;
         String durationStr = hours + "h " + mins + "m";
-        String passengerStr = (passengerName != null && !passengerName.trim().isEmpty()) ? passengerName : "Chua co";
 
         return flightNumber + " | "
-            + passengerStr + " | "
             + departureCity + " | " 
             + destinationCity + " | " 
             + departureTime + " | " 

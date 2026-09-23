@@ -35,6 +35,12 @@ public class MenuView {
                 case "5":
                     displayAllFlights(flightManager);
                     break;
+                case "6":
+                    flightIOHandler.ExportToFile();
+                    break;
+                case "7":
+                    flightIOHandler.ReadFromFile();
+                    break;
                 case "0":
                     running = false;
                     System.out.println("Tam biet!");
@@ -55,6 +61,8 @@ public class MenuView {
         System.out.println("3. Sua thong tin chuyen bay");
         System.out.println("4. Tim kiem chuyen bay");
         System.out.println("5. Hien thi danh sach chuyen bay");
+        System.out.println("6. Export to File");
+        System.out.println("7. Read From File");
         System.out.println("0. Thoat");
         System.out.print("Nhap lua chon: ");
     }
