@@ -135,15 +135,14 @@ public class FlightIOHandler {
                 }
                 
                 String[] data = line.split(",");
-                if (data.length >= 8) {
+                if (data.length >= 7) {
                     String flightNumber = data[0].trim();
-                    String passengerName = data[1].trim();
-                    String departureCity = data[2].trim();
-                    String destinationCity = data[3].trim();
-                    LocalDateTime departureTime = LocalDateTime.parse(data[4].trim(), DATE_TIME_FORMATTER);
-                    LocalDateTime arrivalTime = LocalDateTime.parse(data[5].trim(), DATE_TIME_FORMATTER);
-                    int totalSeats = Integer.parseInt(data[6].trim());
-                    int availableSeats = Integer.parseInt(data[7].trim());
+                    String departureCity = data[1].trim();
+                    String destinationCity = data[2].trim();
+                    LocalDateTime departureTime = LocalDateTime.parse(data[3].trim(), DATE_TIME_FORMATTER);
+                    LocalDateTime arrivalTime = LocalDateTime.parse(data[4].trim(), DATE_TIME_FORMATTER);
+                    int totalSeats = Integer.parseInt(data[5].trim());
+                    int availableSeats = Integer.parseInt(data[6].trim());
                     
                     if (Utils.findFlightByNumber(flightManager.getFlightList(), flightNumber) == null) {
                         Flight flight = new Flight(flightNumber, departureCity, destinationCity, departureTime, arrivalTime, 0, totalSeats, availableSeats);
