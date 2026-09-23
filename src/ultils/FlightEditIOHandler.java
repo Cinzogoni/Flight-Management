@@ -29,7 +29,7 @@ public class FlightEditIOHandler {
         System.out.print("Nhap ma chuyen bay can sua: ");
         String flightNumber = scan.nextLine().trim();
 
-        Flight flight = flightManager.findFlightByNumber(flightNumber);
+        Flight flight = Utils.findFlightByNumber(flightManager.getFlightList(), flightNumber);
         if (flight == null) {
             System.out.println("Khong tim thay chuyen bay co ma: " + flightNumber);
             return;

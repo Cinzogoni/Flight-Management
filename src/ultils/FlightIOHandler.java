@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class FlightIOHandler {
+
     private FlightManager flightManager;
     private Scanner scan;
 
@@ -18,7 +19,11 @@ public class FlightIOHandler {
         this.scan = scan;
     }
 
-    public void handleAddFlight(){
+    public void handleAddFlight() {
+
+    }
+
+    public void handleRemoveFlight() {
 
     }
 }

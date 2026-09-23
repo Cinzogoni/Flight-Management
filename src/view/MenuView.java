@@ -24,12 +24,15 @@ public class MenuView {
                     flightIOHandler.handleAddFlight();
                     break;
                 case "2":
-                    flightEditIOHandler.handleEditFlight();
+                    flightIOHandler.handleRemoveFlight();
                     break;
                 case "3":
-                    flightEditIOHandler.handleEditFlightNumber();
+                    flightEditIOHandler.handleEditFlight();
                     break;
                 case "4":
+                    
+                    break;    
+                case "5":
                     displayAllFlights(flightManager);
                     break;
                 case "0":
@@ -48,9 +51,10 @@ public class MenuView {
         System.out.println();
         System.out.println("===== QUAN LY CHUYEN BAY =====");
         System.out.println("1. Them chuyen bay");
-        System.out.println("2. Sua thong tin chuyen bay");
-        System.out.println("3. Doi ma chuyen bay");
-        System.out.println("4. Hien thi tat ca chuyen bay");
+        System.out.println("2. Xoa chuyen bay");
+        System.out.println("3. Sua thong tin chuyen bay");
+        System.out.println("4. Tim kiem chuyen bay");
+        System.out.println("5. Hien thi danh sach chuyen bay");
         System.out.println("0. Thoat");
         System.out.print("Nhap lua chon: ");
     }
