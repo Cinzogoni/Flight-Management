@@ -6,6 +6,7 @@ import model.Flight;
 import ultils.FlightEditIOHandler;
 import ultils.FlightIOHandler;
 import java.util.Scanner;
+import ultils.Utils;
 
 public class MenuView {
     public static void main(String[] args) {
@@ -30,7 +31,7 @@ public class MenuView {
                     flightEditIOHandler.handleEditFlight();
                     break;
                 case "4":
-                    
+                    flightIOHandler.handleSearchFlight();
                     break;    
                 case "5":
                     displayAllFlights(flightManager);
@@ -73,8 +74,10 @@ public class MenuView {
             return;
         }
         System.out.println("===== DANH SACH CHUYEN BAY =====");
+        System.out.println(Utils.flightHeader());
         for (Flight flight : flightManager.getFlightList()) {
             System.out.println(flight);
         }
+        System.out.println(Utils.flightFooter());
     }
 }

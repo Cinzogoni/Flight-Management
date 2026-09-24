@@ -1,16 +1,12 @@
 package controller;
 
 import model.Flight;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FlightManager {
-    private List<Flight> flightList = new ArrayList<>();
+    private ArrayList<Flight> flightList = new ArrayList<>();
 
-    public List<Flight> getFlightList() {
+    public ArrayList<Flight> getFlightList() {
         return flightList;
     }
-    
-    
 }

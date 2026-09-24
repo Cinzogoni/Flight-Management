@@ -1,6 +1,8 @@
 package ultils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import model.Flight;
@@ -21,8 +23,8 @@ public class Utils {
     }
 
     // Tìm kiếm chuyến bay theo Điểm đi + Điểm đến + Ngày đi + CÒN GHẾ TRỐNG
-    public static List<Flight> searchAvailableFlights(List<Flight> flightList, String departureCity, String destinationCity, LocalDate departureDate) {
-        List<Flight> result = new ArrayList<>();
+    public static ArrayList<Flight> searchAvailableFlights(ArrayList<Flight> flightList, String departureCity, String destinationCity, LocalDate departureDate) {
+        ArrayList<Flight> result = new ArrayList<>();
         for (Flight f : flightList) {
             boolean matchDeparture = f.getDepartureCity().equalsIgnoreCase(departureCity);
             boolean matchDestination = f.getDestinationCity().equalsIgnoreCase(destinationCity);
@@ -34,5 +36,47 @@ public class Utils {
         }
 
         return result;
+    }
+    
+    //Định dạng form cho toString
+    private static final DateTimeFormatter DATE_TIME_FMT =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+    private static final String FLIGHT_ROW_FORMAT =
+            "| %-13s | %-15s | %-15s | %-16s | %-16s | %-9s | %-8s | %-9s |";
+
+    private static final String FLIGHT_SEPARATOR =
+            "+---------------+-----------------+-----------------+------------------+------------------+-----------+----------+-----------+";
+    public static String formatDateTime(LocalDateTime dateTime) {
+        return dateTime == null ? "" : dateTime.format(DATE_TIME_FMT);
+    }
+
+    public static String formatDuration(long minutes) {
+        return (minutes / 60) + "h " + (minutes % 60) + "m";
+    }
+
+    public static String flightHeader() {
+        return FLIGHT_SEPARATOR + "\n"
+             + String.format(FLIGHT_ROW_FORMAT, "Ma chuyen bay", "Noi di", "Noi den",
+                             "Gio khoi hanh", "Gio den", "Thoi gian", "Tong ghe", "Ghe trong")
+             + "\n" + FLIGHT_SEPARATOR;
+    }
+
+    public static String flightFooter() {
+        return FLIGHT_SEPARATOR;
+    }
+
+    public static String flightRow(String flightNumber, String departureCity, String destinationCity,
+                                   LocalDateTime departureTime, LocalDateTime arrivalTime,
+                                   long durationMinutes, int totalSeats, int availableSeats) {
+        return String.format(FLIGHT_ROW_FORMAT,
+                flightNumber,
+                departureCity,
+                destinationCity,
+                formatDateTime(departureTime),
+                formatDateTime(arrivalTime),
+                formatDuration(durationMinutes),
+                String.valueOf(totalSeats),
+                String.valueOf(availableSeats));
     }
 }

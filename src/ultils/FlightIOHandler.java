@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FlightIOHandler {
 
@@ -82,7 +83,54 @@ public class FlightIOHandler {
             System.out.println("Da huy xoa chuyen bay.");
         }
     }
-    
+
+    public void handleSearchFlight() {
+        System.out.println("--- Tim kiem chuyen bay ---");
+        try {
+            System.out.print("Nhap diem di: ");
+            String departureCity = scan.nextLine().trim();
+
+            System.out.print("Nhap diem den: ");
+            String destinationCity = scan.nextLine().trim();
+
+            System.out.print("Nhap ngay khoi hanh (dd/MM/yyyy): ");
+            String dateInput = scan.nextLine().trim();
+
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            java.time.LocalDate departureDate = java.time.LocalDate.parse(dateInput, dateFormatter);
+
+            ArrayList<Flight> availableFlights = Utils.searchAvailableFlights(
+                    flightManager.getFlightList(),
+                    departureCity,
+                    destinationCity,
+                    departureDate
+            );
+
+            if (availableFlights.isEmpty()) {
+                System.out.println("Khong tim thay chuyen bay phu hop hoac tat ca chuyen bay da het ghe!");
+            } else {
+                System.out.println("\n===== KET QUA TIM KIEM =====");
+                System.out.println(Utils.flightHeader());
+                for (Flight f : availableFlights) {
+                    System.out.println(Utils.flightRow(
+                            f.getFlightNumber(),
+                            f.getDepartureCity(),
+                            f.getDestinationCity(),
+                            f.getDepartureTime(),
+                            f.getArrivalTime(),
+                            f.getDurationTime(),
+                            f.getTotalSeats(),
+                            f.getAvailableSeats()
+                    ));
+                }
+                System.out.println(Utils.flightFooter());
+            }
+
+        } catch (Exception e) {
+            System.out.println("Loi dinh dang ngay nhap vao! Vui long nhap dung dang dd/MM/yyyy (VD: 18/10/2026).");
+        }
+    }
+
     public void ExportToFile() {
         System.out.println("--- Xuat du lieu ra file Excel (CSV) ---");
         System.out.print("Nhap ten file (VD: flights.csv): ");
@@ -114,7 +162,7 @@ public class FlightIOHandler {
             System.out.println("Loi khi ghi file: " + e.getMessage());
         }
     }
-    
+
     public void ReadFromFile() {
         System.out.println("--- Doc du lieu tu file Excel (CSV) ---");
         System.out.print("Nhap ten file can doc (VD: flights.csv): ");
@@ -127,13 +175,13 @@ public class FlightIOHandler {
             String line;
             boolean isFirstLine = true;
             int count = 0;
-            
+
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue;
                 }
-                
+
                 String[] data = line.split(",");
                 if (data.length >= 7) {
                     String flightNumber = data[0].trim();
@@ -143,7 +191,7 @@ public class FlightIOHandler {
                     LocalDateTime arrivalTime = LocalDateTime.parse(data[4].trim(), DATE_TIME_FORMATTER);
                     int totalSeats = Integer.parseInt(data[5].trim());
                     int availableSeats = Integer.parseInt(data[6].trim());
-                    
+
                     if (Utils.findFlightByNumber(flightManager.getFlightList(), flightNumber) == null) {
                         Flight flight = new Flight(flightNumber, departureCity, destinationCity, departureTime, arrivalTime, 0, totalSeats, availableSeats);
                         flightManager.getFlightList().add(flight);

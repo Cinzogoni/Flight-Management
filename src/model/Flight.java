@@ -2,8 +2,10 @@ package model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import ultils.Utils;
 
 public class Flight {
+
     private String flightNumber;
     private String departureCity;
     private String destinationCity;
@@ -57,7 +59,7 @@ public class Flight {
     public int getAvailableSeats() {
         return availableSeats;
     }
-    
+
     public final void setFlightNumber(String flightNumber) {
         if (flightNumber == null || !flightNumber.matches("^F\\d{4}$")) {
             throw new IllegalArgumentException("Ma chuyen bay phai co dang Fxyzt (VD: F0001)!");
@@ -119,36 +121,27 @@ public class Flight {
         }
         this.availableSeats = availableSeats;
     }
-    
-    public boolean bookSeat(){
+
+    public boolean bookSeat() {
         if (availableSeats > 0) {
             availableSeats--;
             return true;
         }
         return false;
     }
-    
-    public boolean cancelSeat(){
+
+    public boolean cancelSeat() {
         if (availableSeats < totalSeats) {
             availableSeats++;
             return true;
         }
         return false;
     }
-    
+
     @Override
     public String toString() {
-        long hours = durationTime / 60;
-        long mins = durationTime % 60;
-        String durationStr = hours + "h " + mins + "m";
-
-        return flightNumber + " | "
-            + departureCity + " | " 
-            + destinationCity + " | " 
-            + departureTime + " | " 
-            + arrivalTime + " | "
-            + durationStr + " | Total: " 
-            + totalSeats + " | Available: " 
-            + availableSeats;
+        return Utils.flightRow(flightNumber, departureCity, destinationCity,
+                departureTime, arrivalTime,
+                durationTime, totalSeats, availableSeats);
     }
 }
