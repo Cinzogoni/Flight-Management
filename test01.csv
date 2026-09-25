@@ -1,2 +1,6 @@
 FlightNumber,PassengerName,DepartureCity,DestinationCity,DepartureTime,ArrivalTime,TotalSeats,AvailableSeats
 F5487,HCM,OKJ,29/09/2026 15:30,30/09/2026 15:21,300,5
+F5499,HCM,HN,26/10/2026 09:45,27/10/2026 09:00,300,5
+F5523,Hai Phong,TP HCM,22/10/2026 08:00,23/10/2026 08:00,300,5
+F5296,HN,Dac Nong,20/11/2026 08:30,20/11/2026 21:30,300,6
+F9513,VietNam,Korean,16/12/2026 09:30,16/12/2026 21:45,120,3

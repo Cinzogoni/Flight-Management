@@ -23,30 +23,34 @@ public class Utils {
     }
 
     // Tìm kiếm chuyến bay theo Điểm đi + Điểm đến + Ngày đi + CÒN GHẾ TRỐNG
-    public static ArrayList<Flight> searchAvailableFlights(ArrayList<Flight> flightList, String departureCity, String destinationCity, LocalDate departureDate) {
+    public static ArrayList<Flight> searchAvailableFlights(ArrayList<Flight> flightList, String flightNumber, String departureCity, String destinationCity, LocalDate departureDate) {
         ArrayList<Flight> result = new ArrayList<>();
         for (Flight f : flightList) {
-            boolean matchDeparture = f.getDepartureCity().equalsIgnoreCase(departureCity);
-            boolean matchDestination = f.getDestinationCity().equalsIgnoreCase(destinationCity);
-            boolean matchDate = f.getDepartureTime().toLocalDate().equals(departureDate);
+            boolean matchFlightNumber = flightNumber != null && f.getFlightNumber().equalsIgnoreCase(flightNumber);
+            boolean matchDeparture = departureCity != null && f.getDepartureCity().equalsIgnoreCase(departureCity);
+            boolean matchDestination = destinationCity != null && f.getDestinationCity().equalsIgnoreCase(destinationCity);
+            boolean matchDate = departureDate != null && f.getDepartureTime().toLocalDate().equals(departureDate);
 
-            if (matchDeparture && matchDestination && matchDate && f.getAvailableSeats() > 0) {
+            boolean matchAny = matchFlightNumber || matchDeparture || matchDestination || matchDate;
+
+            if (matchAny && f.getAvailableSeats() > 0) {
                 result.add(f);
             }
         }
 
         return result;
     }
-    
+
     //Định dạng form cho toString
-    private static final DateTimeFormatter DATE_TIME_FMT =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter DATE_TIME_FMT
+            = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    private static final String FLIGHT_ROW_FORMAT =
-            "| %-13s | %-15s | %-15s | %-16s | %-16s | %-9s | %-8s | %-9s |";
+    private static final String FLIGHT_ROW_FORMAT
+            = "| %-13s | %-15s | %-15s | %-16s | %-16s | %-9s | %-8s | %-9s |";
 
-    private static final String FLIGHT_SEPARATOR =
-            "+---------------+-----------------+-----------------+------------------+------------------+-----------+----------+-----------+";
+    private static final String FLIGHT_SEPARATOR
+            = "+---------------+-----------------+-----------------+------------------+------------------+-----------+----------+-----------+";
+
     public static String formatDateTime(LocalDateTime dateTime) {
         return dateTime == null ? "" : dateTime.format(DATE_TIME_FMT);
     }
@@ -57,9 +61,9 @@ public class Utils {
 
     public static String flightHeader() {
         return FLIGHT_SEPARATOR + "\n"
-             + String.format(FLIGHT_ROW_FORMAT, "Ma chuyen bay", "Noi di", "Noi den",
-                             "Gio khoi hanh", "Gio den", "Thoi gian", "Tong ghe", "Ghe trong")
-             + "\n" + FLIGHT_SEPARATOR;
+                + String.format(FLIGHT_ROW_FORMAT, "Ma chuyen bay", "Noi di", "Noi den",
+                        "Gio khoi hanh", "Gio den", "Thoi gian", "Tong ghe", "Ghe trong")
+                + "\n" + FLIGHT_SEPARATOR;
     }
 
     public static String flightFooter() {
@@ -67,8 +71,8 @@ public class Utils {
     }
 
     public static String flightRow(String flightNumber, String departureCity, String destinationCity,
-                                   LocalDateTime departureTime, LocalDateTime arrivalTime,
-                                   long durationMinutes, int totalSeats, int availableSeats) {
+            LocalDateTime departureTime, LocalDateTime arrivalTime,
+            long durationMinutes, int totalSeats, int availableSeats) {
         return String.format(FLIGHT_ROW_FORMAT,
                 flightNumber,
                 departureCity,

@@ -30,7 +30,7 @@ public class FlightIOHandler {
     public void handleAddFlight() {
         System.out.println("--- Them chuyen bay ---");
         try {
-            System.out.print("Nhap ma chuyen bay (VD: F0001): ");
+            System.out.print("Nhap ma chuyen bay (VD: Fxxx): ");
             String flightNumber = scan.nextLine().trim();
             if (Utils.findFlightByNumber(flightManager.getFlightList(), flightNumber) != null) {
                 System.out.println("Ma chuyen bay da ton tai!");
@@ -86,48 +86,68 @@ public class FlightIOHandler {
 
     public void handleSearchFlight() {
         System.out.println("--- Tim kiem chuyen bay ---");
-        try {
-            System.out.print("Nhap diem di: ");
-            String departureCity = scan.nextLine().trim();
 
-            System.out.print("Nhap diem den: ");
-            String destinationCity = scan.nextLine().trim();
+        while (true) {
+            try {
+                System.out.print("Nhap ma chuyen bay (Enter de bo qua): ");
+                String flightNumber = scan.nextLine().trim();
+                
+                System.out.print("Nhap diem di (Enter de bo qua): ");
+                String departureCity = scan.nextLine().trim();
 
-            System.out.print("Nhap ngay khoi hanh (dd/MM/yyyy): ");
-            String dateInput = scan.nextLine().trim();
+                System.out.print("Nhap diem den (Enter de bo qua): ");
+                String destinationCity = scan.nextLine().trim();
 
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            java.time.LocalDate departureDate = java.time.LocalDate.parse(dateInput, dateFormatter);
+                System.out.print("Nhap ngay khoi hanh (dd/MM/yyyy) - (Enter de bo qua): ");
+                String dateInput = scan.nextLine().trim();
 
-            ArrayList<Flight> availableFlights = Utils.searchAvailableFlights(
-                    flightManager.getFlightList(),
-                    departureCity,
-                    destinationCity,
-                    departureDate
-            );
-
-            if (availableFlights.isEmpty()) {
-                System.out.println("Khong tim thay chuyen bay phu hop hoac tat ca chuyen bay da het ghe!");
-            } else {
-                System.out.println("\n===== KET QUA TIM KIEM =====");
-                System.out.println(Utils.flightHeader());
-                for (Flight f : availableFlights) {
-                    System.out.println(Utils.flightRow(
-                            f.getFlightNumber(),
-                            f.getDepartureCity(),
-                            f.getDestinationCity(),
-                            f.getDepartureTime(),
-                            f.getArrivalTime(),
-                            f.getDurationTime(),
-                            f.getTotalSeats(),
-                            f.getAvailableSeats()
-                    ));
+                if (flightNumber.isEmpty() && departureCity.isEmpty() && destinationCity.isEmpty() && dateInput.isEmpty()) {
+                    System.out.println("Ban phai dien it nhat 1 thong tin de tim kiem!");
+                    System.out.print("Ban co muon thoat tim kiem khong? (Y/N): ");
+                    String exit = scan.nextLine().trim();
+                    if (exit.equalsIgnoreCase("Y")) {
+                        System.out.println("Da huy tim kiem.");
+                        return;
+                    }
+                    continue;
                 }
-                System.out.println(Utils.flightFooter());
-            }
 
-        } catch (Exception e) {
-            System.out.println("Loi dinh dang ngay nhap vao! Vui long nhap dung dang dd/MM/yyyy (VD: 18/10/2026).");
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                java.time.LocalDate departureDate = dateInput.isEmpty()
+                        ? null
+                        : java.time.LocalDate.parse(dateInput, dateFormatter);
+
+                ArrayList<Flight> availableFlights = Utils.searchAvailableFlights(
+                        flightManager.getFlightList(),
+                        flightNumber.isEmpty() ? null : flightNumber,
+                        departureCity.isEmpty() ? null : departureCity,
+                        destinationCity.isEmpty() ? null : destinationCity,
+                        departureDate
+                );
+
+                if (availableFlights.isEmpty()) {
+                    System.out.println("Khong tim thay chuyen bay phu hop hoac tat ca chuyen bay da het ghe!");
+                } else {
+                    System.out.println("\n===== KET QUA TIM KIEM =====");
+                    System.out.println(Utils.flightHeader());
+                    for (Flight f : availableFlights) {
+                        System.out.println(Utils.flightRow(
+                                f.getFlightNumber(),
+                                f.getDepartureCity(),
+                                f.getDestinationCity(),
+                                f.getDepartureTime(),
+                                f.getArrivalTime(),
+                                f.getDurationTime(),
+                                f.getTotalSeats(),
+                                f.getAvailableSeats()
+                        ));
+                    }
+                    System.out.println(Utils.flightFooter());
+                }
+
+            } catch (Exception e) {
+                System.out.println("Loi dinh dang ngay nhap vao! Vui long nhap dung dang dd/MM/yyyy (VD: 18/10/2026).");
+            }
         }
     }
 
